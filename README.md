@@ -9,14 +9,6 @@ These set of files are containing functions that provide a layer over DataSHIELD
 
 - [login to the opal instances](R/protocols/login.R)
 - [logout of the opal instances](R/protocols/logout.R)
-- [summarizing data](R/protocols/summaries.R)
-
-### Methods
-Coding for standard data analysis in DataSHIELD.
-
-- [preprocessing data](R/protocols/data.R)
-- [comparing two means](R/protocols/means.R)
-- [contour plots](R/protocols/plots.R)
 
 ## Usage
 You can make use of the functions by including the package through the following code snippet|
@@ -29,3 +21,4 @@ At this moment the implemented functions at this moment are:
 
 - ```lc.login``` login from LifeCycle cohorts through DataSHIELD
 - ```lc.logout``` logout in LifeCycle cohorts through DataSHIELD
+- ```lc.populate``` populate versions of data-dictionaries in Opal
