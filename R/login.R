@@ -6,9 +6,6 @@
 #'
 #' @importFrom opalr opal.login
 #'
-#' @examples
-#' lc.login(hostname = 'https://my-own-opal.org', password = 'my-password')
-#'
 #' @export
 #'
 lc.login <-

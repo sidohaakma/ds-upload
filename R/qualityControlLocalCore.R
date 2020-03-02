@@ -30,12 +30,6 @@
 #' @param input_path path for importfile
 #' @param variable_category describes the categories you want to run in your quality control (possible values are: ALL, META, MATERNAL, PATERNAL, CHILD and HOUSEHOLD - default = ALL)
 #'
-#' @examples
-#' lc.quality.local.core(
-#'   input_format = 'SPSS',
-#'   input_path = 'C:\MyDocuments\source_file.sav',
-#'   variable_category = 'CHILD')
-#'
 lc.quality.local.core <-
   local(function(input_format = 'CSV',
                  input_path,
