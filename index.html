@@ -62,7 +62,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/lifecycle-project/ds-upload/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -75,7 +82,7 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><img src="https://travis-ci.org/lifecycle-project/analysis-protocols.svg?branch=master" alt="Build status"></p>
+<p><img src="https://travis-ci.org/lifecycle-project/ds-upload.svg?branch=master" alt="Build status"></p>
 <div id="datashield-upload-tools" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#datashield-upload-tools" class="anchor"></a>DataSHIELD upload tools</h1></div>
@@ -83,7 +90,8 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Please check the <a href="./references/index.html">references</a> and <a href="./articles/index.html">articles</a> above.</p>
+<p>Please check <a href="https://lifecycle-project.github.io/ds-upload/articles/DSUpload.html">uploading to DataSHIELD guide</a></p>
+<p>For detailled function descrptions, please check: <a href="https://lifecycle-project.github.io/ds-upload/reference/index.html">references</a> and above.</p>
 </div>
 <div id="troubleshooting" class="section level2">
 <h2 class="hasAnchor">
@@ -99,17 +107,23 @@
 <h2 class="hasAnchor">
 <a href="#releases" class="anchor"></a>Releases</h2>
 <p>Releasing the artifact can be done by curling to the following address:</p>
-<p><strong>For source packages</strong></p>
+<div id="for-source-packages" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-source-packages" class="anchor"></a>For source packages</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">curl</span> -v --user <span class="st">'user:password'</span> --upload-file dsUpload_3.0.0.tar.gz https://registry.molgenis.org/repository/r-hosted/src/contrib/dsUpload_3.0.0.tar.gz </a></code></pre></div>
 <p><em>URL clarification: <a href="https://registry.molgenis.org/repository/r-hosted/src/contrib/*package_version" class="uri">https://registry.molgenis.org/repository/r-hosted/src/contrib/*package_version</a></em>.tar.gz*</p>
-<p><strong>For binary packages</strong></p>
+</div>
+<div id="for-binary-packages" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-binary-packages" class="anchor"></a>For binary packages</h3>
 <p>First upload the source package to <a href="https://win-builder.r-project.org/" class="uri">https://win-builder.r-project.org/</a> Then download the zip-file build bij win-builder. Then upload it into the registry by executing this command:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">curl</span> -v --user <span class="st">'user:password'</span> --upload-file dsUpload_3.0.0.zip https://registry.molgenis.org/repository/r-hosted/bin/windows/contrib/3.6/dsUpload_3.0.0.zip</a></code></pre></div>
 <p><em>URL clarification: <a href="https://registry.molgenis.org/repository/r-hosted/bin/windows/contrib/*r-version*/*package_version" class="uri">https://registry.molgenis.org/repository/r-hosted/bin/windows/contrib/*r-version*/*package_version</a></em>.zip*</p>
 <p>Also create a git-tag and push this to the remote, based upon the <code>dsUpload</code> DESCRIPTION-file.</p>
-<pre><code>git tag x.x.x
-git push origin tags/x.x.x</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="fu">git</span> tag x.x.x</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="fu">git</span> push origin tags/x.x.x</a></code></pre></div>
 <p>This is used to download the data dictionaries, so do not forget to do this!</p>
+</div>
 </div>
 <div id="setup-travis-ci" class="section level2">
 <h2 class="hasAnchor">
@@ -127,14 +141,14 @@ git push origin tags/x.x.x</code></pre>
 <p>To use travis to generate your site as well please use <code>pkgdown</code></p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="kw pkg">usethis</span><span class="kw ns">::</span><span class="fu">use_pkgdown</span>()
 <span class="kw pkg">usethis</span><span class="kw ns">::</span><span class="fu">use_pkgdown_travis</span>()</pre></div>
-<p>Use travis to deploy to github Open the R environment: <code>usethis::edit_r_environ()</code></p>
-<p>Add to R environment these keys:</p>
+<p>Use travis to deploy to github by first perparing the R environment: <code>usethis::edit_r_environ()</code></p>
+<p>Add these key-value pairs to R environment</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># You can generate the key using this function: usethis::browse_github_token()</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="va">GITHUB_PAT=</span>xxxx</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="va">R_TRAVIS=</span>.org</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># You can find the key using this function: `travis::browse_travis_token(endpoint = '.org')`</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="va">R_TRAVIS_ORG=</span>xxxx</a></code></pre></div>
-<p>Then run this command:</p>
+<p>Run the travis deploy command to complete the setup.</p>
 <div class="sourceCode" id="cb8"><pre class="r"><span class="kw pkg">travis</span><span class="kw ns">::</span><span class="fu">use_travis_deploy</span>()</pre></div>
 </div>
 </div>
@@ -142,7 +156,16 @@ git push origin tags/x.x.x</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/lifecycle-project/ds-upload/">https://​github.com/​lifecycle-project/​ds-upload/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/lifecycle-project/ds-upload/issues">https://​github.com/​lifecycle-project/​ds-upload/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>

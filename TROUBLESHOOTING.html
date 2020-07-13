@@ -100,7 +100,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/lifecycle-project/ds-upload/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -120,7 +125,7 @@
 
 <div id="troubleshooting" class="section level1">
 
-<p>All kinds of stuff can go wrong. This a collection of scenario’s where you might run into and possible solutions.</p>
+<p>All kinds of stuff can go wrong. This a collection of scenario’s where you might run into.</p>
 <div id="install-r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install-r" class="anchor"></a>Install R</h2>
@@ -128,27 +133,38 @@
 <blockquote>
 <p><strong>IMPORTANT:</strong> install R where you have write access also for other files. Within a contained environment this is for example your network drive.</p>
 </blockquote>
-<p><strong>For Windows</strong></p>
+<div id="for-windows" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-windows" class="anchor"></a>For Windows</h3>
 <p>Get R from: <a href="https://cran.r-project.org/bin/windows/base/" class="uri">https://cran.r-project.org/bin/windows/base/</a>. More specifically: <a href="https://cran.r-project.org/bin/windows/base/R-3.6.1-win.exe" class="uri">https://cran.r-project.org/bin/windows/base/R-3.6.1-win.exe</a>.</p>
 <p>You can install the package with the default settings.</p>
-<p><strong>For Mac</strong></p>
+</div>
+<div id="for-mac" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-mac" class="anchor"></a>For Mac</h3>
 <p>Get R from: <a href="https://cran.r-project.org/bin/macosx/" class="uri">https://cran.r-project.org/bin/macosx/</a>. More specifically: <a href="https://cran.r-project.org/bin/macosx/R-3.6.1.pkg" class="uri">https://cran.r-project.org/bin/macosx/R-3.6.1.pkg</a>.</p>
 <p>You can install the package with the default settings.</p>
 <p><strong>RStudio</strong></p>
 <p>RStudio is nice to have but not a necessity. You can download it here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a>.</p>
 </div>
+</div>
 <div id="update-your-r-version-in-rstudio" class="section level2">
 <h2 class="hasAnchor">
 <a href="#update-your-r-version-in-rstudio" class="anchor"></a>Update your R version in RStudio</h2>
 <p>Sometimes you run an old version of R. You need to upgrade whenever that happens to the latest version. This will be different for Windows and Mac.</p>
-<p><strong>For Windows</strong></p>
+<div id="for-windows-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-windows-1" class="anchor"></a>For Windows</h3>
 <p>Goto <em>Start</em> –&gt; <em>Type ‘R’ within the Run field</em>. Click on <em>R x.x.x</em> to get to the commandline interface</p>
 <div class="sourceCode" id="cb1"><html><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"installr"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">installr</span>)
 
 <span class="fu">updateR</span>()</pre></html></div>
 <p>You will get a wizard, please choose all the defaults and proceed with the installation.</p>
-<p><strong>For Mac</strong></p>
+</div>
+<div id="for-mac-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-mac-1" class="anchor"></a>For Mac</h3>
 <p>You can use <code>updateR</code>. Install it via the following commands:</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('devtools') #assuming it is not already installed
 library(devtools)
@@ -160,13 +176,14 @@ updateR(admin_password = 'Admin user password')</a></code></pre>
 </blockquote>
 </div>
 </div>
+</div>
 <div id="package-wont-install" class="section level1">
 <h1 class="hasAnchor">
 <a href="#package-wont-install" class="anchor"></a>Package won’t install</h1>
 <div id="prerequisites" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prerequisites" class="anchor"></a>Prerequisites</h2>
-<p>You need these packages to can make use of the LifeCycle R-package.</p>
+<p>You need these packages to can make use of the dsUpload R-package.</p>
 <ul>
 <li>opalr (&gt;= 1.2.0),</li>
 <li>dplyr,</li>
@@ -185,17 +202,17 @@ updateR(admin_password = 'Admin user password')</a></code></pre>
 <blockquote>
 <p>For Opal reference documentation check: <a href="http://opaldoc.obiba.org/en/latest/r-user-guide/datashield.html" class="uri">http://opaldoc.obiba.org/en/latest/r-user-guide/datashield.html</a></p>
 </blockquote>
-<div id="for-windows" class="section level3">
+<div id="for-windows-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#for-windows" class="anchor"></a>For Windows</h3>
-<p>Install the Opal package. By installing <code>RCurl, rjson</code> first. <code>{r, eval = FALSE} install.packages(c('httr', 'rjson'), repos=c('https://cloud.r-project.org/', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
+<a href="#for-windows-2" class="anchor"></a>For Windows</h3>
+<p>Install the Opal package by installing <code>RCurl, rjson</code> first. <code>{r, eval = FALSE} install.packages(c('httr', 'rjson'), repos=c('https://cloud.r-project.org/', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
 <p>Then execute: <code>{r, eval = FALSE} install.packages('opalr', repos=c('https://cloud.r-project.org', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
 <p>Install remaining packages by executing: <code>{r, eval = FALSE} install.packages(c('metafor', 'tidyr', 'dplyr', 'readr', 'stringr', 'readxl', 'data.table', 'haven', 'gmodels', 'ggplot2', 'plotly', 'openxslx', 'jsonlite'), repos=c('https://cloud.r-project.org/', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
 <p>This may take a while</p>
 </div>
-<div id="for-mac" class="section level3">
+<div id="for-mac-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#for-mac" class="anchor"></a>For Mac</h3>
+<a href="#for-mac-2" class="anchor"></a>For Mac</h3>
 <p>Install Opal by executing: <code>{r, eval = FALSE} install.packages('opalr', repos=c('https://cloud.r-project.org/', 'https://cran.obiba.org'), dependencies=TRUE)</code></p>
 <p>Install remaing packages by executing: <code>{r, eval = FALSE} install.packages(c('metafor', 'tidyr', 'dplyr', 'readr', 'stringr', 'readxl', 'data.table', 'haven', 'gmodels', 'ggplot2', 'plotly', 'httr', 'openxslx', 'jsonlite'), repos=c('https://cloud.r-project.org/'))</code></p>
 </div>
@@ -216,16 +233,20 @@ wieght_04 == decimal</code></pre>
 <div id="packages-wont-register-within-the-r-environment" class="section level4">
 <h4 class="hasAnchor">
 <a href="#packages-wont-register-within-the-r-environment" class="anchor"></a>Packages won’t register within the R-environment</h4>
-<p><strong>For Windows</strong> Sometimes the installed packages can not be registered in the R-environment because of the missing package <code>pkgconfig</code></p>
+<div id="for-windows-3" class="section level5">
+<h5 class="hasAnchor">
+<a href="#for-windows-3" class="anchor"></a>For Windows</h5>
+<p>Sometimes the installed packages can not be registered in the R-environment because of the missing package <code>pkgconfig</code></p>
 <p><code>{r, eval = FALSE} install.packages("pkgconfig")</code></p>
+</div>
 </div>
 </div>
 <div id="errors-importing-the-tables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#errors-importing-the-tables" class="anchor"></a>Error’s importing the tables</h2>
-<div id="tablenames-too-large" class="section level5">
-<h5 class="hasAnchor">
-<a href="#tablenames-too-large" class="anchor"></a>Tablenames too large</h5>
+<div id="tablenames-too-large" class="section level4">
+<h4 class="hasAnchor">
+<a href="#tablenames-too-large" class="anchor"></a>Tablenames too large</h4>
 <p>When Opal returns something like this and you have a SQL like backend (MariaDB or MySQL)</p>
 <pre><code>Identifier name 'idx_lifecycle_1_0_20191119_172835_1_0_monthly_repeated_measures_created' is too long</code></pre>
 <p>You need to run this on the mysql-client:</p>
