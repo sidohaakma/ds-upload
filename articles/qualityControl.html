@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsUpload</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.3.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.1.0</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -63,6 +63,9 @@
       <a href="../articles/dataVersioning.html">Data versioning</a>
     </li>
     <li>
+      <a href="../articles/dictionaryVersioning.html">Dictionairy versioning</a>
+    </li>
+    <li>
       <a href="../articles/qualityControl.html">Quality control</a>
     </li>
   </ul>
@@ -71,7 +74,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/lifecycle-project/ds-upload/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -85,8 +88,7 @@
 
       
 
-      </header><link href="qualityControl_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="qualityControl_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Quality control</h1>
@@ -99,63 +101,111 @@
 
     
     
-<div id="quality-control" class="section level1">
-<h1 class="hasAnchor">
-<a href="#quality-control" class="anchor"></a>Quality control</h1>
-<p>The quality control measures are based upon the different variable types we have.</p>
+<p>Quality control is carried out both locally and centrally.</p>
+<div id="local-quality-control" class="section level2">
+<h2 class="hasAnchor">
+<a href="#local-quality-control" class="anchor"></a>Local quality control</h2>
+<p>Local quality control is conducted by each cohort after harmonisation, following the quality control instructions and scripts provided by each work package lead. These check:</p>
 <ul>
-<li>non repeated</li>
-<li>yearly repeated</li>
-<li>monthly repeated</li>
-<li>trimester repeated</li>
-<li>weekly repeated</li>
+<li>that variables match the descriptions provided in the core variable list (name, datatype, values)</li>
+<li>for outliers or improbable values</li>
+<li>for inconsistencies between non-repeated measures (e.g. all mothers coded as not smoking during pregnancy are also coded as smoking zero cigarettes during pregnancy);</li>
+<li>for inconsistencies between repeated measures (e.g. children reducing height over time).</li>
 </ul>
-<p>All of the measures are quakity control based upon generic algorithems and with the help of the <a href="https://github.com/lifecycle-project/ds-helper">dsHelper</a> package.</p>
+<p>Any inconsistencies identified are investigated on a cases-by-case basis to establish which values are legitimate and which are errors, also in light of the other data available.</p>
+</div>
+<div id="central-quality-control" class="section level2">
+<h2 class="hasAnchor">
+<a href="#central-quality-control" class="anchor"></a>Central quality control</h2>
+<p>Quality of harmonised data is also assessed at the central level (central quality control), by creating summary statistics for each variable in R/DataSHIELD, and comparing these across cohorts. As in the local quality control, this is to identify outliers and improbable values and inconsistencies in data, but also to identify large inconsistencies between cohorts. Where large inconsistencies are found, these are investigated further in order to establish to what extent these differences are real vs. an artefact of differing methodology. They could, for example, be due to different sampling and recruitment methods or differences in the instruments used to collect data; they could also be due to differences in the harmonisation process itself.</p>
+</div>
+<div id="checks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#checks" class="anchor"></a>Checks</h2>
+<p>The central quality control checks are carried out when data are uploaded and imported into a DataSHIELD backend (for example an institute’s DataSHIELD server). These four tables are now supported.</p>
+<ul>
+<li>non-repeated</li>
+<li>yearly-repeated</li>
+<li>monthly-repeated</li>
+<li>trimester-repeated</li>
+</ul>
+<p>For each of the four tables in the network, means and standard deviations are computed for continuous variables, and frequencies and percentages for categorical variables; these are tabulated over year for yearly- and monthly-repeated variables, and over trimester for trimester repeated variables.</p>
+<p>Once computed, the summary statistics are pushed to a central server which creates a PDF of the combined results. It is possible to view the output from the function by specifying <code>verbose = TRUE</code> in the method signature.</p>
+</div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>The quality control will be executed in the pipeline after uploading and importing the data into a DataSHIELD backend. However you can execute the flow seperatly as well.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">login_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">server =</span> <span class="st">"https://armadillo.test.molgenis.org"</span>, <span class="dt">storage =</span> <span class="st">"https://armadillo-minio.test.molgenis.org"</span>, <span class="dt">driver =</span> <span class="st">"ArmadilloDriver"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">du.login</span>(login_data)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt;   Login to: "https://armadillo.test.molgenis.org"</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; [1] "We're opening a browser so you can log in with code MJKLKK"</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt;   Logged on to: "https://armadillo.test.molgenis.org"</span></a>
+<div id="for-armadillo" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-armadillo" class="anchor"></a>For Armadillo</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(dsUpload)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">login_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">server =</span> <span class="st">"https://armadillo.test.molgenis.org"</span>, </a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="dt">storage =</span> <span class="st">"https://armadillo-minio.test.molgenis.org"</span>, </a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="dt">driver =</span> <span class="st">"ArmadilloDriver"</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">)</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(dsUpload)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">du.quality.control</span>(<span class="dt">project =</span> <span class="st">"gecko"</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   Starting quality control</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; ------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; Loading required namespace: DSMolgenisArmadillo</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;  * Starting with: gecko - 1_1_outcome_1_0/monthly_rep</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; Logging into the collaborating servers</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">  Assigned all <span class="kw">table</span> (QC &lt;-<span class="st"> </span>...) [<span class="op">==</span><span class="er">=====================================================</span>] <span class="dv">100</span>% <span class="op">/</span><span class="st"> </span>0s</a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt;  * Starting with: gecko - 1_1_outcome_1_0/non_rep</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; Logging into the collaborating servers</span></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-22" data-line-number="22">  Assigned all <span class="kw">table</span> (QC &lt;-<span class="st"> </span>...) [<span class="op">==</span><span class="er">=====================================================</span>] <span class="dv">100</span>% <span class="op">/</span><span class="st"> </span>0s</a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt;  * Starting with: non repeated measures</span></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt;  Quantiles of the pooled data</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt;  Quantiles of the pooled data</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; Error: argument of length 0</span></a></code></pre></div>
-<div id="table-types" class="section level3">
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">du.login</span>(login_data)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; ***********************************************************************************</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] You are not running the latest version of the dsUpload-package.</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] If you want to upgrade to newest version : [ 4.0.6 ],</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] Please run 'install.packages("dsUpload", repos = "https://registry.molgenis.org/repository/R/")'</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] Check the release notes here: https://github.com/lifecycle-project/analysis-protocols/releases/tag/4.0.6</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; ***********************************************************************************</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;   Login to: "https://armadillo.test.molgenis.org"</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; [1] "We're opening a browser so you can log in with code CQGWW6"</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt;   Logged on to: "https://armadillo.test.molgenis.org"</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="kw">du.quality.control</span>(<span class="dt">project =</span> <span class="st">"gecko"</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt;   Starting quality control</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; ------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; Loading required namespace: DSMolgenisArmadillo</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt;  * Starting with: gecko - 1_1_outcome_1_0/monthly_rep</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; Logging into the collaborating servers</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">  Logged <span class="cf">in</span> all servers [<span class="op">==</span><span class="er">==============================================================</span>] <span class="dv">100</span>% <span class="op">/</span><span class="st"> </span>1s</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">  Assigned all <span class="kw">table</span> (QC &lt;-<span class="st"> </span>...) [<span class="op">==</span><span class="er">=====================================================</span>] <span class="dv">100</span>% <span class="op">/</span><span class="st"> </span>0s</a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; Error: There are some DataSHIELD errors, list them with datashield.errors()</span></a></code></pre></div>
+</div>
+<div id="for-opal" class="section level3">
 <h3 class="hasAnchor">
-<a href="#table-types" class="anchor"></a>Table types</h3>
-<p>For each of the types there is a different analysis that needs to be done. So in non-repeated we distinguish conituous and categorical values and for repeated measures we will investigate for each of the types which is the most valueble approach to get the ouput as useful as possible.</p>
-</div>
-<div id="exposing-results" class="section level3">
-<h3 class="hasAnchor">
-<a href="#exposing-results" class="anchor"></a>Exposing results</h3>
-<p>When you run the upload it will not show the summary statistics and it will push them directly into the catalogue.</p>
-</div>
-</div>
-<div id="output" class="section level2">
-<h2 class="hasAnchor">
-<a href="#output" class="anchor"></a>Output</h2>
-<p>When the results are pushed to the catalogue we first create a PDF to distribute the output to the cohorts. You can display the through specifying <code>verbose = TRUE</code>.</p>
+<a href="#for-opal" class="anchor"></a>For Opal</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(dsUpload)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">login_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="dt">server =</span> <span class="st">"https://opal.edge.molgenis.org"</span>, </a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="dt">username =</span> <span class="st">"administrator"</span>, </a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="dt">password =</span> <span class="st">"ouf0uPh6"</span>, </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="dt">driver =</span> <span class="st">"OpalDriver"</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw">du.login</span>(login_data)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; ***********************************************************************************</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] You are not running the latest version of the dsUpload-package.</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] If you want to upgrade to newest version : [ 4.0.6 ],</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] Please run 'install.packages("dsUpload", repos = "https://registry.molgenis.org/repository/R/")'</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;   [</span><span class="al">WARNING</span><span class="co">] Check the release notes here: https://github.com/lifecycle-project/analysis-protocols/releases/tag/4.0.6</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; ***********************************************************************************</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;   Login to: "https://opal.edge.molgenis.org"</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   Logged on to: "https://opal.edge.molgenis.org"</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="kw">du.quality.control</span>(<span class="dt">project =</span> <span class="st">"lc_gecko_core_2_1"</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;   Starting quality control</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; ------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; Loading required namespace: DSOpal</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;  * Starting with: lc_gecko_core_2_1 - 1_0_monthly_rep</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; Logging into the collaborating servers</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">  Logged <span class="cf">in</span> all servers [<span class="op">==</span><span class="er">==============================================================</span>] <span class="dv">100</span>% <span class="op">/</span><span class="st"> </span>0s</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">  Assigned all <span class="kw">table</span> (QC &lt;-<span class="st"> </span>...) [<span class="op">==</span><span class="er">=====================================================</span>] <span class="dv">100</span>% <span class="op">/</span><span class="st"> </span>1s</a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; Error: There are some DataSHIELD errors, list them with datashield.errors()</span></a></code></pre></div>
+<blockquote>
+<p>All of the measures are quality control based upon generic algorithems and with the help of the <a href="https://github.com/lifecycle-project/ds-helper">dsHelper</a> package.</p>
+</blockquote>
 </div>
 </div>
   </div>
