@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dsUpload</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.1.3</span>
       </span>
     </div>
 
@@ -134,7 +134,6 @@
       <h1>TROUBLESHOOTING</h1>
     </div>
 
-
 <div id="troubleshooting" class="section level1">
 
 <p>All kinds of stuff can go wrong. This a collection of scenario’s where you might run into.</p>
@@ -189,13 +188,12 @@ updateR(admin_password = 'Admin user password')</a></code></pre>
 </blockquote>
 </div>
 </div>
-</div>
-<div id="package-wont-install" class="section level1">
-<h1 class="hasAnchor">
-<a href="#package-wont-install" class="anchor"></a>Package won’t install</h1>
-<div id="prerequisites" class="section level2">
+<div id="package-wont-install" class="section level2">
 <h2 class="hasAnchor">
-<a href="#prerequisites" class="anchor"></a>Prerequisites</h2>
+<a href="#package-wont-install" class="anchor"></a>Package won’t install</h2>
+<div id="prerequisites" class="section level3">
+<h3 class="hasAnchor">
+<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
 <p>You need these packages to can make use of the dsUpload R-package.</p>
 <ul>
 <li>opalr (&gt;= 1.2.0),</li>
@@ -215,19 +213,20 @@ updateR(admin_password = 'Admin user password')</a></code></pre>
 <blockquote>
 <p>For Opal reference documentation check: <a href="http://opaldoc.obiba.org/en/latest/r-user-guide/datashield.html" class="uri">http://opaldoc.obiba.org/en/latest/r-user-guide/datashield.html</a></p>
 </blockquote>
-<div id="for-windows-2" class="section level3">
-<h3 class="hasAnchor">
-<a href="#for-windows-2" class="anchor"></a>For Windows</h3>
+<div id="for-windows-2" class="section level4">
+<h4 class="hasAnchor">
+<a href="#for-windows-2" class="anchor"></a>For Windows</h4>
 <p>Install the Opal package by installing <code>RCurl, rjson</code> first. <code>{r, eval = FALSE} install.packages(c('httr', 'rjson'), repos=c('https://cloud.r-project.org/', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
 <p>Then execute: <code>{r, eval = FALSE} install.packages('opalr', repos=c('https://cloud.r-project.org', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
 <p>Install remaining packages by executing: <code>{r, eval = FALSE} install.packages(c('metafor', 'tidyr', 'dplyr', 'readr', 'stringr', 'readxl', 'data.table', 'haven', 'gmodels', 'ggplot2', 'plotly', 'openxslx', 'jsonlite'), repos=c('https://cloud.r-project.org/', 'https://www.stats.ox.ac.uk/pub/RWin/'))</code></p>
 <p>This may take a while</p>
 </div>
-<div id="for-mac-2" class="section level3">
-<h3 class="hasAnchor">
-<a href="#for-mac-2" class="anchor"></a>For Mac</h3>
+<div id="for-mac-2" class="section level4">
+<h4 class="hasAnchor">
+<a href="#for-mac-2" class="anchor"></a>For Mac</h4>
 <p>Install Opal by executing: <code>{r, eval = FALSE} install.packages('opalr', repos=c('https://cloud.r-project.org/', 'https://cran.obiba.org'), dependencies=TRUE)</code></p>
 <p>Install remaing packages by executing: <code>{r, eval = FALSE} install.packages(c('metafor', 'tidyr', 'dplyr', 'readr', 'stringr', 'readxl', 'data.table', 'haven', 'gmodels', 'ggplot2', 'plotly', 'httr', 'openxslx', 'jsonlite'), repos=c('https://cloud.r-project.org/'))</code></p>
+</div>
 </div>
 </div>
 <div id="errors-when-running-the-program" class="section level2">
@@ -236,22 +235,27 @@ updateR(admin_password = 'Admin user password')</a></code></pre>
 <p>Error’s can occur during the method calls in the lifecycleProject package.</p>
 <div id="attributes-are-not-identical-across-measure-variables-they-will-be-dropped" class="section level4">
 <h4 class="hasAnchor">
-<a href="#attributes-are-not-identical-across-measure-variables-they-will-be-dropped" class="anchor"></a>attributes are not identical across measure variables; they will be dropped</h4>
+<a href="#attributes-are-not-identical-across-measure-variables-they-will-be-dropped" class="anchor"></a>Attributes are not identical across measure variables; they will be dropped</h4>
 <p>When this message occurs it means the the types of the vectors concerning the yearly or monthly repeated measures are different. The reshape function will resolve this, but it is wise to check your dataset for these differences.</p>
 <p>For instance:</p>
 <pre><code>weight_01 == integer
 ...
 wieght_04 == decimal</code></pre>
-</div>
-<div id="packages-wont-register-within-the-r-environment" class="section level4">
-<h4 class="hasAnchor">
-<a href="#packages-wont-register-within-the-r-environment" class="anchor"></a>Packages won’t register within the R-environment</h4>
-<div id="for-windows-3" class="section level5">
+<div id="packages-wont-register-within-the-r-environment" class="section level5">
 <h5 class="hasAnchor">
-<a href="#for-windows-3" class="anchor"></a>For Windows</h5>
+<a href="#packages-wont-register-within-the-r-environment" class="anchor"></a>Packages won’t register within the R-environment</h5>
+<div id="for-windows-3" class="section level6">
+<h6>For Windows</h6>
 <p>Sometimes the installed packages can not be registered in the R-environment because of the missing package <code>pkgconfig</code></p>
 <p><code>{r, eval = FALSE} install.packages("pkgconfig")</code></p>
 </div>
+</div>
+</div>
+<div id="cannot-allocate-vector-of-xxx-xx" class="section level3">
+<h3 class="hasAnchor">
+<a href="#cannot-allocate-vector-of-xxx-xx" class="anchor"></a>Cannot allocate vector of (xxx.xx)</h3>
+<p>You can increase the memory that can be used by R by executing the following command.</p>
+<p><code>{r, eval = FALSE} memory.size(max = TRUE)</code></p>
 </div>
 </div>
 <div id="errors-importing-the-tables" class="section level2">
@@ -266,9 +270,31 @@ wieght_04 == decimal</code></pre>
 <pre><code>SET @@global.innodb_large_prefix = 1;</code></pre>
 <p>This options is persisted in the database and allows you to create larger indexes on the SQL server.</p>
 </div>
+<div id="the-url-protocol-is-not-set" class="section level4">
+<h4 class="hasAnchor">
+<a href="#the-url-protocol-is-not-set" class="anchor"></a>The URL protocol is not set</h4>
+<p>When you do not specify the protocol in the URL.</p>
+<p>Incorrect:</p>
+<pre><code>builder &lt;- newDSLoginBuilder()
+builder.append(server = "opal.cohort-example.org")</code></pre>
+<p>Results in:</p>
+<pre><code>Error in curl::curl_fetch_memory(url, handle = handle) :
+Protocol "" not supported or disabled in libcurl</code></pre>
+<p>Correct:</p>
+<pre><code>builder &lt;- newDSLoginBuilder()
+builder.append(server = "https://opal.cohort-example.org")</code></pre>
+</div>
+<div id="non-default-database-name" class="section level4">
+<h4 class="hasAnchor">
+<a href="#non-default-database-name" class="anchor"></a>Non-default database name</h4>
+<p>When you receive the error below, you need to specify the <code>database_name</code> in the <code><a href="reference/du.upload.html">du.upload()</a></code> method.</p>
+<pre><code>Error: Client error: (404) Not Found; NoSuchDatabase: opal_data</code></pre>
+<p>Example:</p>
+<pre><code><a href="reference/du.upload.html">du.upload(database_name = "example_database_name", .....)</a></code></pre>
+<p>You can check the database name in the “Administration”-tab and then “Databases”. The second database has a name that you need to specify.</p>
 </div>
 </div>
-
+</div>
 
   </div>
 

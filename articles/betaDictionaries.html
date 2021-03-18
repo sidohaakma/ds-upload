@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsUpload</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.1.3</span>
       </span>
     </div>
 
@@ -101,10 +101,7 @@
 
     
     
-<div id="beta-dictionaries" class="section level1">
-<h1 class="hasAnchor">
-<a href="#beta-dictionaries" class="anchor"></a>Beta dictionaries</h1>
-<p>The beta dictionaries are used to be able to initiate creation of dictonaries in the harmonisation process of new variables in a very early stage. As a PI you can manage and create new dictionaries which can be uploaded and tested by involved cohorts in a pilot phase of the project. Dictionaries can be changed and updated at any time and the network will be unaffected. After testing and approving the final beta dictionary the variables will be included in the main dictionaries and released when in the 3 months cycle.</p>
+<p>The beta dictionaries are used to be able to initiate creation of dictonaries in the harmonisation process of new variables in a very early stage. As a PI you can manage and create new dictionaries which can be uploaded and tested by involved cohorts in a pilot phase of the project. Dictionaries can be changed and updated at any time and the network will be unaffected. After testing and approving the final beta dictionary the variables will be included in the main dictionaries and released when in the 6 months cycle.</p>
 <div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-it-works" class="anchor"></a>How it works</h2>
@@ -168,36 +165,22 @@
 <a href="#upload-to-armadillo" class="anchor"></a>Upload to Armadillo</h3>
 <p>When a first version of a beta dictionary is available, you can upload it to the Armadillo with the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">login_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>server <span class="op">=</span> <span class="st">"https://armadillo.test.molgenis.org"</span>, storage <span class="op">=</span> <span class="st">"https://armadillo-minio.test.molgenis.org"</span>, driver <span class="op">=</span> <span class="st">"ArmadilloDriver"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">login_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  server <span class="op">=</span> <span class="st">"https://armadillo.test.molgenis.org"</span>, 
+  storage <span class="op">=</span> <span class="st">"https://armadillo-minio.test.molgenis.org"</span>, 
+  driver <span class="op">=</span> <span class="st">"ArmadilloDriver"</span>
+<span class="op">)</span>
 
 <span class="fu"><a href="../reference/du.login.html">du.login</a></span><span class="op">(</span><span class="va">login_data</span><span class="op">)</span>
 <span class="co">#&gt;   Login to: "https://armadillo.test.molgenis.org"</span>
-<span class="co">#&gt; [1] "We're opening a browser so you can log in with code S5N7DQ"</span>
+<span class="co">#&gt; [1] "We're opening a browser so you can log in with code 4G79WW"</span>
 <span class="co">#&gt;   Logged on to: "https://armadillo.test.molgenis.org"</span>
   
 <span class="fu"><a href="../reference/du.upload.beta.html">du.upload.beta</a></span><span class="op">(</span>
   dict_name <span class="op">=</span> <span class="st">"example-dictionary"</span>, 
-  data_input_path <span class="op">=</span> <span class="st">"/Users/sido/VisualStudioCodeProjects/ds-beta-dictionaries/data/example-dictionary/beta_dict_generated_data.csv"</span><span class="op">)</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt;   Start upload BETA data into DataSHIELD backend</span>
-<span class="co">#&gt; ------------------------------------------------------</span>
-<span class="co">#&gt;  * Create temporary workdir</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt;   Start download dictionaries</span>
-<span class="co">#&gt; ------------------------------------------------------</span>
-<span class="co">#&gt; * Download: [ example-dictionary-non_rep.xlsx ]</span>
-<span class="co">#&gt; * Download: [ example-dictionary-yearly_rep.xlsx ]</span>
-<span class="co">#&gt;   Successfully downloaded dictionaries</span>
-<span class="co">#&gt; Created project 'example-dictionary'</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt;   Start converting and importing data</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt; * Setup: load data and set output directory</span>
-<span class="co">#&gt; ------------------------------------------------------</span>
-<span class="co">#&gt; * Generating: non-repeated measures</span>
-<span class="co">#&gt; Error in sapply(project_elements, tail, 1): object 'project_elements' not found</span>
-<span class="co">#&gt;  * Reinstate default working directory</span>
-<span class="co">#&gt;  * Cleanup temporary directory</span></code></pre></div>
+  data_input_path <span class="op">=</span> <span class="st">"/Users/sido/VisualStudioCodeProjects/ds-beta-dictionaries/data/example-dictionary/beta_dict_generated_data.csv"</span>,
+  data_version <span class="op">=</span> <span class="st">"1_0"</span><span class="op">)</span>
+<span class="co">#&gt; Error in du.upload.beta(dict_name = "example-dictionary", data_input_path = "/Users/sido/VisualStudioCodeProjects/ds-beta-dictionaries/data/example-dictionary/beta_dict_generated_data.csv", : unused argument (data_version = "1_0")</span></code></pre></div>
 <p>You will be able to check the data in the Armadillo immediately.</p>
 </div>
 </div>
@@ -206,40 +189,25 @@
 <a href="#upload-to-opal" class="anchor"></a>Upload to Opal</h2>
 <p>When a first version of a beta dictionary is available, you can upload it to Opal with the following code:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">login_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>server <span class="op">=</span> <span class="st">"https://opal.edge.molgenis.org"</span>, password <span class="op">=</span> <span class="st">"Ui3thahr"</span>, driver <span class="op">=</span> <span class="st">"OpalDriver"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">login_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  server <span class="op">=</span> <span class="st">"https://opal.edge.molgenis.org"</span>, 
+  password <span class="op">=</span> <span class="st">"ouf0uPh6"</span>, 
+  driver <span class="op">=</span> <span class="st">"OpalDriver"</span>
+<span class="op">)</span>
 
 <span class="fu"><a href="../reference/du.login.html">du.login</a></span><span class="op">(</span><span class="va">login_data</span><span class="op">)</span>
 <span class="co">#&gt;   Login to: "https://opal.edge.molgenis.org"</span>
-<span class="co">#&gt; Error: Client error: (401) Unauthorized</span>
+<span class="co">#&gt;   Logged on to: "https://opal.edge.molgenis.org"</span>
   
 <span class="fu"><a href="../reference/du.upload.beta.html">du.upload.beta</a></span><span class="op">(</span>
   dict_name <span class="op">=</span> <span class="st">"example-dictionary"</span>, 
-  data_input_path <span class="op">=</span> <span class="st">"/Users/sido/VisualStudioCodeProjects/ds-beta-dictionaries/data/example-dictionary/beta_dict_generated_data.csv"</span><span class="op">)</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt;   Start upload BETA data into DataSHIELD backend</span>
-<span class="co">#&gt; ------------------------------------------------------</span>
-<span class="co">#&gt;  * Create temporary workdir</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt;   Start download dictionaries</span>
-<span class="co">#&gt; ------------------------------------------------------</span>
-<span class="co">#&gt; * Download: [ example-dictionary-non_rep.xlsx ]</span>
-<span class="co">#&gt; * Download: [ example-dictionary-yearly_rep.xlsx ]</span>
-<span class="co">#&gt;   Successfully downloaded dictionaries</span>
-<span class="co">#&gt; * Project : example-dictionary already exists</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt;   Start converting and importing data</span>
-<span class="co">#&gt; ######################################################</span>
-<span class="co">#&gt; * Setup: load data and set output directory</span>
-<span class="co">#&gt; ------------------------------------------------------</span>
-<span class="co">#&gt; * Generating: non-repeated measures</span>
-<span class="co">#&gt; Error in sapply(project_elements, tail, 1): object 'project_elements' not found</span>
-<span class="co">#&gt;  * Reinstate default working directory</span>
-<span class="co">#&gt;  * Cleanup temporary directory</span></code></pre></div>
+  data_input_path <span class="op">=</span> <span class="st">"/Users/sido/VisualStudioCodeProjects/ds-beta-dictionaries/data/example-dictionary/beta_dict_generated_data.csv"</span>,
+  data_version <span class="op">=</span> <span class="st">"1_0"</span><span class="op">)</span>
+<span class="co">#&gt; Error in du.upload.beta(dict_name = "example-dictionary", data_input_path = "/Users/sido/VisualStudioCodeProjects/ds-beta-dictionaries/data/example-dictionary/beta_dict_generated_data.csv", : unused argument (data_version = "1_0")</span></code></pre></div>
 <p>After this you need to manually upload the data just like you would in a released data upload.</p>
 <blockquote>
 <p>Be advised: the data is now placed into directories on the target system, in this case a “beta” directory</p>
 </blockquote>
-</div>
 </div>
   </div>
 
