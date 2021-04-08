@@ -10,9 +10,10 @@ ds_upload.globals <- new.env()
 #' @param data_input_format format of the database to be reshaped. Can be 'CSV', 'STATA', or 'SAS'
 #' @param database_name is the name of the data backend of DataSHIELD, default = opal_data
 #' @param run_mode default = NORMAL, can be TEST and NON_INTERACTIIVE
+#' @param project default = lifecycle-project but can be other consortia as well
 #'
 #' @export
-du.upload.beta <- function(upload = TRUE, dict_name = "", action = du.enum.action()$ALL, data_input_path = "", data_input_format = du.enum.input.format()$CSV, database_name = "opal_data", run_mode = du.enum.run.mode()$NORMAL) {
+du.upload.beta <- function(upload = TRUE, dict_name = "", action = du.enum.action()$ALL, data_input_path = "", data_input_format = du.enum.input.format()$CSV, database_name = "opal_data", run_mode = du.enum.run.mode()$NORMAL, project = du.enum.projects()$LIFECYCLE) {
   du.check.package.version()
   du.check.session(upload)
 
@@ -24,10 +25,11 @@ du.upload.beta <- function(upload = TRUE, dict_name = "", action = du.enum.actio
     {
       workdirs <- du.create.temp.workdir()
       du.check.action(action)
+      du.set.dictionary.urls(project)
       du.dict.download(dict_name = dict_name, dict_kind = du.enum.dict.kind()$BETA)
 
       if (action == du.enum.action()$ALL | action == du.enum.action()$POPULATE) {
-        project <- du.populate.beta(dict_name, database_name)
+        project <- du.populate.beta(dict_name, project, database_name)
       }
 
       if (action == du.enum.action()$ALL | action == du.enum.action()$RESHAPE) {

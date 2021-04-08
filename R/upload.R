@@ -13,6 +13,7 @@ ds_upload.globals <- new.env()
 #' @param data_input_path path to the to-be-reshaped data
 #' @param action action to be performed, can be 'reshape', 'populate' or 'all'
 #' @param run_mode default = NORMAL, can be TEST and NON_INTERACTIIVE
+#' @param project default = lifecycle-project but can be other consortia as well
 #'
 #' @examples
 #' \dontrun{
@@ -28,30 +29,17 @@ ds_upload.globals <- new.env()
 #' @export
 du.upload <- function(dict_version = "2_1", data_version = "1_0", dict_kind = du.enum.dict.kind()$CORE,
                       cohort_id, database_name = "opal_data", data_input_format = du.enum.input.format()$CSV, data_input_path,
-                      action = du.enum.action()$ALL, upload = TRUE, run_mode = du.enum.run.mode()$NORMAL) {
+                      action = du.enum.action()$ALL, upload = TRUE, run_mode = du.enum.run.mode()$NORMAL, project = du.enum.projects()$LIFECYCLE) {
   du.check.package.version()
 
   message("######################################################")
   message("  Start upload data into DataSHIELD backend")
   message("------------------------------------------------------")
 
+  du.set.dictionary.urls(project)
   du.populate.dict.versions(dict_kind, dict_version)
 
   du.check.session(upload)
-
-  if (missing(cohort_id) & run_mode != du.enum.run.mode()$NON_INTERACTIVE) {
-    cohort_id <- readline("- Specify cohort identifier (e.g. dnbc): ")
-  }
-  if (cohort_id == "") {
-    stop("No cohort identifier is specified! Program is terminated.")
-  } else {
-    if (!(cohort_id %in% du.enum.cohorts()) & run_mode != du.enum.run.mode()$TEST) {
-      stop(
-        "Cohort: [ ", cohort_id, " ] is not a known cohort in the netwprk Please choose from: [ ",
-        paste(du.enum.cohorts(), collapse = ", "), " ]"
-      )
-    }
-  }
 
   if (missing(data_version) & run_mode != du.enum.run.mode()$NON_INTERACTIVE) {
     data_version <- readline("- Specify version of cohort data upload (e.g. 1_0): ")
@@ -86,9 +74,23 @@ du.upload <- function(dict_version = "2_1", data_version = "1_0", dict_kind = du
       workdirs <- du.create.temp.workdir()
       du.dict.download(dict_version = dict_version, dict_kind = dict_kind)
       du.check.action(action)
+      
+      if (missing(cohort_id) & run_mode != du.enum.run.mode()$NON_INTERACTIVE) {
+        cohort_id <- readline("- Specify cohort identifier (e.g. dnbc): ")
+      }
+      if (cohort_id == "") {
+        stop("No cohort identifier is specified! Program is terminated.")
+      } else {
+        if (!(cohort_id %in% du.cohorts.from.dictionaries()) & run_mode != du.enum.run.mode()$TEST) {
+          stop(
+            "Cohort: [ ", cohort_id, " ] is not a known cohort in the netwprk Please choose from: [ ",
+            paste(du.enum.cohorts(), collapse = ", "), " ]"
+          )
+        }
+      }
 
       if ((action == du.enum.action()$ALL | action == du.enum.action()$POPULATE) && upload == TRUE) {
-        project <- du.populate(dict_version, cohort_id, data_version, database_name, dict_kind)
+        project <- du.populate(dict_version, cohort_id, data_version, dict_kind, project, database_name)
       }
 
       if (action == du.enum.action()$ALL | action == du.enum.action()$RESHAPE) {

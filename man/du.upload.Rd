@@ -14,7 +14,8 @@ du.upload(
   data_input_path,
   action = du.enum.action()$ALL,
   upload = TRUE,
-  run_mode = du.enum.run.mode()$NORMAL
+  run_mode = du.enum.run.mode()$NORMAL,
+  project = du.enum.projects()$LIFECYCLE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ du.upload(
 \item{upload}{directly upload the reshaped database to the logged in DataSHIELD server}
 
 \item{run_mode}{default = NORMAL, can be TEST and NON_INTERACTIIVE}
+
+\item{project}{default = lifecycle-project but can be other consortia as well}
 }
 \description{
 Upload dictionaries and data into the DataSHIELD backend.

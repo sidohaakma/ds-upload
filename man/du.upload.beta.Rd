@@ -11,7 +11,8 @@ du.upload.beta(
   data_input_path = "",
   data_input_format = du.enum.input.format()$CSV,
   database_name = "opal_data",
-  run_mode = du.enum.run.mode()$NORMAL
+  run_mode = du.enum.run.mode()$NORMAL,
+  project = du.enum.projects()$LIFECYCLE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ du.upload.beta(
 \item{database_name}{is the name of the data backend of DataSHIELD, default = opal_data}
 
 \item{run_mode}{default = NORMAL, can be TEST and NON_INTERACTIIVE}
+
+\item{project}{default = lifecycle-project but can be other consortia as well}
 }
 \description{
 Upload beta dictionaries to your Opal instance

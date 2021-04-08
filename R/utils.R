@@ -1,8 +1,32 @@
 # Use environment to store some path variables to use in different functions
 ds_upload.globals <- new.env()
 
-ds_upload.globals$api_dict_released_url <- "https://api.github.com/repos/lifecycle-project/ds-dictionaries/contents/"
-ds_upload.globals$api_dict_beta_url <- "https://api.github.com/repos/lifecycle-project/ds-beta-dictionaries/contents/"
+#' Set the dictonary url to the right project
+#'
+#' @param project default is lifecycle-project
+#' 
+#' @noRd
+du.set.dictionary.urls <- function(project) {
+  ds_upload.globals$api_dict_released_url <- paste0("https://api.github.com/repos/", project ,"/ds-dictionaries/contents/")
+  ds_upload.globals$api_dict_beta_url <- paste0("https://api.github.com/repos/", project ,"/ds-beta-dictionaries/contents/")
+}
+
+#' Determine the prefix which should be use to generate a project in an armadillo backend.
+#'
+#' @param project default = lifecycle-project
+#' 
+#' @noRd
+du.determine.project.prefix <- function(project) {
+  prefix <- "lc"
+  if(project == du.enum.projects()$ATHLETE) {
+    prefix <- "athl"
+  } else if(project == du.enum.projects()$LONGITOOLS) {
+    prefix <- "lngi"
+  } else if(project == du.enum.projects()$IPEC) {
+    prefix <- "ipec"
+  }
+  return(prefix)
+}
 
 #' Numerical extraction function
 #' Number at the end of the string: Indicates year. We need to extract this to create the age_years variable.
@@ -13,9 +37,9 @@ ds_upload.globals$api_dict_beta_url <- "https://api.github.com/repos/lifecycle-p
 #' @importFrom stringr str_extract
 #'
 #' @noRd
-du.num.extract <- local(function(input_string) {
+du.num.extract <- function(input_string) {
   str_extract(input_string, "\\d*$")
-})
+}
 
 #' This function creates a summary table
 #'
@@ -29,7 +53,7 @@ du.num.extract <- local(function(input_string) {
 #' @return a summary of the data
 #'
 #' @noRd
-du.summarize <- local(function(df, .var) {
+du.summarize <- function(df, .var) {
   .var <- sym(.var)
 
   data_summary <- df %>% summarise(
@@ -39,7 +63,7 @@ du.summarize <- local(function(df, .var) {
     ), n = n(), missing = sum(is.na(!!.var))
   )
   return(data_summary)
-})
+}
 
 #'
 #' Check if the given version matches the syntax number . underscore . number
@@ -49,9 +73,9 @@ du.summarize <- local(function(df, .var) {
 #' @importFrom stringr str_detect
 #'
 #' @noRd
-du.check.version <- local(function(version) {
+du.check.version <- function(version) {
   return(str_detect(version, "\\d+\\_\\d+"))
-})
+}
 
 #'
 #' Parse response to dataframe

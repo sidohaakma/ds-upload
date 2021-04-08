@@ -37,7 +37,16 @@ du.dict.download <- local(function(dict_name, dict_version, dict_kind) {
   message("  Successfully downloaded dictionaries")
 })
 
-
+#' Retrieve cohorts from dictionaries
+#' 
+#' @noRd
+du.cohorts.from.dictionaries <- function() {
+  raw <- du.retrieve.full.dict(du.enum.table.types()$NONREP, du.enum.dict.kind()$CORE)
+  print(raw)
+  
+  cohorts <- raw$cohort_id
+  return(cohorts)
+}
 
 #' Retrieve the released dictionaries from 'ds-dictionaries' to match against
 #'
@@ -90,7 +99,7 @@ du.dict.retrieve.tables <- function(api_url, dict_name, dict_version, data_versi
 #' @param dict_version dictionary version (can be 'x_x')
 #'
 #' @noRd
-du.populate.dict.versions <- local(function(dict_kind, dict_version) {
+du.populate.dict.versions <- function(dict_kind, dict_version) {
   versions <- du.get.response.as.dataframe(paste0(
     ds_upload.globals$api_dict_released_url, "dictionaries/",
     dict_kind, "?ref=", dict_version
@@ -101,7 +110,7 @@ du.populate.dict.versions <- local(function(dict_kind, dict_version) {
   } else {
     ds_upload.globals$dictionaries_outcome <- versions$name
   }
-})
+}
 
 #'
 #' Retrieve the right file from download directory
@@ -114,8 +123,8 @@ du.populate.dict.versions <- local(function(dict_kind, dict_version) {
 #' @return a raw version of the dictionary
 #'
 #' @noRd
-du.retrieve.dictionaries <- local(function(dict_table, dict_kind) {
-  dict_file_list <- list.files(paste(getwd(), "/", dict_kind, sep = ""))
+du.retrieve.dictionaries <- function(dict_table, dict_kind) {
+  dict_file_list <- list.files(paste0(getwd(), "/", dict_kind))
 
   if (!missing(dict_table)) {
     dict_file_list <- dict_file_list[grep(dict_table, dict_file_list)]
@@ -128,7 +137,7 @@ du.retrieve.dictionaries <- local(function(dict_table, dict_kind) {
     ), sheet = 1))
   }
   return(as.data.frame(raw_dict))
-})
+}
 
 #' Get the full dictionary with mapped categories
 #' 

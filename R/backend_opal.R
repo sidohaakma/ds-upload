@@ -99,7 +99,7 @@ du.opal.project.create <- function(project, database_name) {
   dict_version <- paste0(canonical_project_name[[1]][3], "_rep")
 
   message("------------------------------------------------------")
-  message(paste("  Start creating project: [ ", project, " ]", sep = ""))
+  message(paste0("  Start creating project: [ ", project, " ]"))
 
   projects <- opal.projects(ds_upload.globals$conn)
 
@@ -113,7 +113,7 @@ du.opal.project.create <- function(project, database_name) {
     )
     opal.post(ds_upload.globals$conn, "projects", body = json, contentType = "application/x-protobuf+json")
   } else {
-    message(paste("* Project: [ ", project, " ] already exists", sep = ""))
+    message(paste0("* Project: [ ", project, " ] already exists"))
   }
 }
 
