@@ -70,7 +70,7 @@ du.login <- function(login_data) {
 #'
 #' @noRd
 du.check.package.version <- function() {
-  url <- paste0("https://registry.molgenis.org/service/rest/v1/search?repository=r-hosted&name=", packageName())
+  url <- paste0("https://registry.molgenis.org/service/rest/v1/search?repository=r-hosted-external&name=", packageName())
   result <- fromJSON(txt = url)
   currentVersion <- packageVersion(packageName())
   if (any(result$items$version > currentVersion)) {

@@ -83,8 +83,8 @@ du.upload <- function(dict_version = "2_1", data_version = "1_0", dict_kind = du
       } else {
         if (!(cohort_id %in% du.cohorts.from.dictionaries()) & run_mode != du.enum.run.mode()$TEST) {
           stop(
-            "Cohort: [ ", cohort_id, " ] is not a known cohort in the netwprk Please choose from: [ ",
-            paste(du.enum.cohorts(), collapse = ", "), " ]"
+            "Cohort: [ ", cohort_id, " ] is not a known cohort in the network, please choose from: [ ",
+            paste(du.cohorts.from.dictionaries(), collapse = ", "), " ]"
           )
         }
       }

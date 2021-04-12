@@ -137,14 +137,14 @@ du.opal.dict.import <- function(project, dictionaries, dict_kind) {
       json_table <- sprintf("{\"entityType\":\"Participant\",\"name\":\"%s\"}", dict$table)
       tables <- opal.tables(ds_upload.globals$conn, project)
       if (!(dict$table %in% tables$name)) {
-        message(paste("* Create table: [ ", dict$table, " ]", sep = ""))
+        message(paste0("* Create table: [ ", dict$table, " ]"))
         url <- paste0("datasource/", project, "/tables")
         opal.post(ds_upload.globals$conn, url,
           body = json_table,
           contentType = "application/x-protobuf+json"
         )
       } else {
-        message(paste("* Table: [ ", dict$table, " ] already exists", sep = ""))
+        message(paste0("* Table: [ ", dict$table, " ] already exists"))
       }
 
       du.opal.dict.match.categories(project, dict_kind, dict$table, dict$file_name)

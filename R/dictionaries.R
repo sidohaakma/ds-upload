@@ -9,7 +9,7 @@
 #' @importFrom utils download.file packageVersion
 #'
 #' @noRd
-du.dict.download <- local(function(dict_name, dict_version, dict_kind) {
+du.dict.download <- function(dict_name, dict_version, dict_kind) {
   message("######################################################")
   message("  Start download dictionaries")
   message("------------------------------------------------------")
@@ -35,17 +35,15 @@ du.dict.download <- local(function(dict_name, dict_version, dict_kind) {
     })
 
   message("  Successfully downloaded dictionaries")
-})
+}
 
 #' Retrieve cohorts from dictionaries
 #' 
 #' @noRd
 du.cohorts.from.dictionaries <- function() {
   raw <- du.retrieve.full.dict(du.enum.table.types()$NONREP, du.enum.dict.kind()$CORE)
-  print(raw)
-  
-  cohorts <- raw$cohort_id
-  return(cohorts)
+  cohort_cats <- raw[raw$name %in% 'cohort_id', ]$cats
+  return(cohort_cats[[1]]$label)
 }
 
 #' Retrieve the released dictionaries from 'ds-dictionaries' to match against
@@ -132,9 +130,7 @@ du.retrieve.dictionaries <- function(dict_table, dict_kind) {
 
   raw_dict <- list()
   for (file_name in dict_file_list) {
-    raw_dict <- rbind(raw_dict, read_xlsx(path = paste(dict_kind, "/", file_name,
-      sep = ""
-    ), sheet = 1))
+    raw_dict <- rbind(raw_dict, read_xlsx(path = paste0(dict_kind, "/", file_name), sheet = 1))
   }
   return(as.data.frame(raw_dict))
 }
