@@ -66,7 +66,7 @@ du.data.frame.remove.all.na.rows <- local(function(dataframe) {
 #' @return matched_columns in source data
 #'
 #' @noRd
-du.match.columns <- local(function(data_columns, dict_columns) {
+du.match.columns <- function(data_columns, dict_columns) {
   matched_columns <- character()
 
   matched_columns <- data_columns[data_columns %in% dict_columns]
@@ -79,7 +79,7 @@ du.match.columns <- local(function(data_columns, dict_columns) {
   }
   # Select the non-repeated measures from the full data set
   return(matched_columns)
-})
+}
 
 #'
 #' Check if there are columns not matching the dictionary.
@@ -124,6 +124,7 @@ du.check.variables <- local(function(dict_kind, data_columns, run_mode) {
 #' @importFrom readr write_csv
 #' @importFrom dplyr %>%
 #' @importFrom readxl read_xlsx
+#' @importFrom tibble rowid_to_column
 #'
 #' @noRd
 du.reshape.generate.non.repeated <- function(data, dict_kind) {
@@ -133,18 +134,14 @@ du.reshape.generate.non.repeated <- function(data, dict_kind) {
   variables_non_repeated_dict <- du.retrieve.dictionaries(du.enum.table.types()$NONREP, dict_kind)
 
   # select the non-repeated measures from the full data set
-  non_repeated <- c("child_id", variables_non_repeated_dict$name)
-  non_repeated_measures <- data[, which(colnames(data) %in% non_repeated)]
+  non_repeated_measures <- data[, which(colnames(data) %in% variables_non_repeated_dict$name)]
 
   # strip the rows with na values
   non_repeated_measures <- non_repeated_measures[, colSums(is.na(non_repeated_measures)) <
     nrow(non_repeated_measures)]
 
   # add row_id again to preserve child_id
-  non_repeated_measures <- data.frame(
-    row_id = c(1:length(non_repeated_measures$child_id)),
-    non_repeated_measures
-  )
+  non_repeated_measures <- rowid_to_column(non_repeated_measures, "row_id")
 
   return(non_repeated_measures)
 }
